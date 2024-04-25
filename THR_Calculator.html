@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THR Calculator</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        input[type="number"] {
+            width: 30%;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 30%;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <input type="number" id="gajiPokok" placeholder="Gaji Pokok" required>
+        <input type="number" id="tunjanganTetap" placeholder="Tunjangan Tetap" required>
+        <input type="number" id="masaKerja" placeholder="Masa Kerja (bulan)" required>
+        <button id="hitung">Hitung</button>
+        <p id="output"></p>
+    </div>
+
+    <script>
+        const hitungButton = document.getElementById("hitung");
+        const gajiPokokInput = document.getElementById("gajiPokok");
+        const tunjanganTetapInput = document.getElementById("tunjanganTetap");
+        const masaKerjaInput = document.getElementById("masaKerja");
+        const outputParagraph = document.getElementById("output");
+
+        hitungButton.addEventListener("click", function () {
+            const gajiPokok = parseFloat(gajiPokokInput.value);
+            const tunjanganTetap = parseFloat(tunjanganTetapInput.value);
+            const masaKerja = parseFloat(masaKerjaInput.value);
+
+            const totalGaji = gajiPokok + tunjanganTetap;
+            let thr;
+            if (masaKerja >= 12) {
+                thr = totalGaji;
+            } else {
+                thr = (masaKerja / 12) * totalGaji;
+            }
+
+            const ptkp = 4500000;
+            let pph21;
+            if (totalGaji > ptkp) {
+                pph21 = 0.05 * (totalGaji - ptkp);
+            } else {
+                pph21 = 0;
+            }
+
+            const totalPembayaran = thr + pph21;
+
+            outputParagraph.textContent = `
+            THR: Rp. ${thr.toLocaleString("id-ID")}
+            PPH 21: Rp. ${pph21.toLocaleString("id-ID")}
+            Total Pembayaran: Rp. ${totalPembayaran.toLocaleString("id-ID")}
+            `;
+        });
+    </script>
+
+</body>
+
+</html>
